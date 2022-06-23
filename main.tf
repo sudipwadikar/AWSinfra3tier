@@ -221,7 +221,7 @@ resource "aws_subnet" "Private_Subnet_App2" {
 # Create Security Group for Private APP subnet #
 
 resource "aws_security_group" "Allow_APP_Traffic" {
-  name        = "allow_APP_web_ssh_traffic"
+  name        = "allow_APP_web_traffic"
   description = "Allow inbound 22,80,443"
   vpc_id      = aws_vpc.MFP_VPC.id
 
