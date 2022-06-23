@@ -40,7 +40,7 @@ resource "aws_internet_gateway" "Internet_Gateway" {
 resource "aws_subnet" "Public_Subnet_Web1" {
   vpc_id     = aws_vpc.MFP_VPC.id
   cidr_block = "10.0.0.16/28"
-  availability_zone = "ap-southeast-1a"
+  availability_zone = "us-east-1a"
   map_public_ip_on_launch = "true"
 
   tags = {
@@ -51,7 +51,7 @@ resource "aws_subnet" "Public_Subnet_Web1" {
 resource "aws_subnet" "Public_Subnet_Web2" {
   vpc_id     = aws_vpc.MFP_VPC.id
   cidr_block = "10.0.0.32/28"
-  availability_zone = "ap-southeast-1b"
+  availability_zone = "us-east-1b"
   map_public_ip_on_launch = "true"
 
   tags = {
@@ -199,7 +199,7 @@ resource "aws_instance" "bastion-host" {
 resource "aws_subnet" "Private_Subnet_App1" {
   vpc_id     = aws_vpc.MFP_VPC.id
   cidr_block = "10.0.0.48/28"
-  availability_zone = "ap-southeast-1a"
+  availability_zone = "us-east-1a"
   map_public_ip_on_launch = "false"
 
   tags = {
@@ -210,7 +210,7 @@ resource "aws_subnet" "Private_Subnet_App1" {
 resource "aws_subnet" "Private_Subnet_App2" {
   vpc_id     = aws_vpc.MFP_VPC.id
   cidr_block = "10.0.0.64/28"
-  availability_zone = "ap-southeast-1b"
+  availability_zone = "us-east-1b"
   map_public_ip_on_launch = "false"
 
   tags = {
@@ -303,7 +303,7 @@ resource "aws_route_table_association" "private2" {
 resource "aws_subnet" "Private_Subnet_DB2" {
   vpc_id     = aws_vpc.MFP_VPC.id
   cidr_block = "10.0.0.80/28"
-  availability_zone = "ap-southeast-1b"
+  availability_zone = "us-east-1b"
   map_public_ip_on_launch = "false"
 
   tags = {
@@ -314,7 +314,7 @@ resource "aws_subnet" "Private_Subnet_DB2" {
 resource "aws_subnet" "Private_Subnet_DB1" {
   vpc_id     = aws_vpc.MFP_VPC.id
   cidr_block = "10.0.0.96/28"
-  availability_zone = "ap-southeast-1a"
+  availability_zone = "us-east-1a"
   map_public_ip_on_launch = "false"
 
   tags = {
