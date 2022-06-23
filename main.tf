@@ -185,7 +185,7 @@ resource "aws_security_group" "sg-bastion" {
 
 resource "aws_instance" "bastion-host" {
   ami                         = "ami-0e8e39877665a7c92"
-  key_name                    = "bootcamp"
+  key_name                    = "Appserver"
   instance_type               = "t2.micro"
   subnet_id = aws_subnet.Public_Subnet_Web2.id
   vpc_security_group_ids            = [aws_security_group.sg-bastion.id]
@@ -568,7 +568,7 @@ resource "aws_launch_configuration" "web_launch_config" {
   name_prefix                 = "WEB-Autoscaling"
   image_id                    = "ami-0e8e39877665a7c92" #Amazon Linux 2 AMI
   instance_type               = "t2.micro"
-  key_name                    = "bootcamp"
+  key_name                    = "Appserver"
   associate_public_ip_address = true
   security_groups             = [aws_security_group.Allow_Web_Traffic.id]
   lifecycle {
@@ -602,7 +602,7 @@ resource "aws_launch_configuration" "app_launch_config" {
   name_prefix                 = "APP-Autoscaling"
   image_id                    = "ami-0e8e39877665a7c92" #Amazon Linux 2 AMI
   instance_type               = "t2.micro"
-  key_name                    = "bootcamp"
+  key_name                    = "Appserver"
   associate_public_ip_address = false
   security_groups             = [aws_security_group.Allow_APP_Traffic.id]
   lifecycle {
