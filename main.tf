@@ -571,37 +571,7 @@ resource "aws_launch_configuration" "web_launch_config" {
   key_name                    = "bootcamp"
   associate_public_ip_address = true
   security_groups             = [aws_security_group.Allow_Web_Traffic.id]
-
-  user_data = <<-EOF
-              #!/bin/bash
-              sudo -i
-              yum install -y git gettext 
-              sudo amazon-linux-extras install nginx1
-              echo "NETWORKING=yes" >/etc/sysconfig/network
-              
-              # install node
-              curl -qo- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
-              export NVM_DIR="$HOME/.nvm"
-              [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-              [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-              nvm install 6.11.5
-              
-               # setup sample app client
-              git clone https://github.com/tellisnz/terraform-aws.git
-              cd terraform-aws/sample-web-app/client
-              npm install -g @angular/cli@1.1.0
-              npm install
-              export HOME=/root
-              ng build
-              rm /usr/share/nginx/html/*
-              cp dist/* /usr/share/nginx/html/
-              chown -R nginx:nginx /usr/share/nginx/html
-			        export APP_ELB="${aws_lb.APP_ALB.dns_name}" APP_PORT="80" WEB_PORT="80"
-		          envsubst '$${APP_PORT} $${APP_ELB} $${WEB_PORT}' < nginx.conf.template > /etc/nginx/nginx.conf
-			        service nginx start
-              EOF
-  
-lifecycle {
+  lifecycle {
     create_before_destroy = true
   }
 }
@@ -635,20 +605,6 @@ resource "aws_launch_configuration" "app_launch_config" {
   key_name                    = "bootcamp"
   associate_public_ip_address = false
   security_groups             = [aws_security_group.Allow_APP_Traffic.id]
-
-  user_data = <<-EOF
-              #!/bin/bash
-              sudo -i
-              yum install -y java-1.8.0-openjdk-devel wget git
-              export JAVA_HOME=/etc/alternatives/java_sdk_1.8.0
-              wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
-              sed -i s/\$releasever/6/g /etc/yum.repos.d/epel-apache-maven.repo
-              yum install -y apache-maven
-              git clone https://github.com/tellisnz/terraform-aws.git
-              cd terraform-aws/sample-web-app/server
-			        nohup mvn spring-boot:run -Dspring.datasource.url=jdbc:mysql://"${aws_db_instance.RDS-Test.endpoint}:3306/admin" -Dspring.datasource.username="admin" -Dspring.datasource.password="password123" -Dserver.port="80" &> mvn.out &
-              EOF
-  
   lifecycle {
     create_before_destroy = true
   }
